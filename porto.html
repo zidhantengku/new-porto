@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio - Zidhan Tengku Wilandra</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #999;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #fff;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Page Container */
+        .page {
+            min-height: 100vh;
+            padding: 100px 5% 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            pointer-events: none;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .page.exit-left {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .page.exit-right {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        /* Home Page */
+        .home-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            min-height: calc(100vh - 150px);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .home-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .home-text .role-primary {
+            font-size: 5.5rem;
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -2px;
+            color: #fff;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-text .role-secondary {
+            font-size: 5.5rem;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1;
+            letter-spacing: -2px;
+            color: #666;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .home-text .ampersand {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #444;
+            margin: 10px 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-image {
+            position: relative;
+            width: 100%;
+            height: 650px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .home-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.15) brightness(0.95);
+            transition: transform 0.8s ease, filter 0.8s ease;
+        }
+
+        .home-image:hover img {
+            transform: scale(1.08);
+            filter: grayscale(100%) contrast(1.2) brightness(1);
+        }
+
+        .home-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #555;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .scroll-line {
+            width: 50px;
+            height: 1px;
+            background: #555;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #000;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* About Page */
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+
+        .about-text p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #aaa;
+            margin-bottom: 1.8rem;
+            font-weight: 300;
+        }
+
+        .download-cv-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            border: 2px solid #fff;
+            cursor: pointer;
+        }
+
+        .download-cv-btn:hover {
+            background: #000;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .download-cv-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .about-image {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.15);
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .project-card:active {
+            transform: translateY(-5px) scale(0.98);
+        }
+
+        .project-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-thumbnail::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 100%);
+            z-index: 1;
+        }
+
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.4s ease;
+            filter: brightness(0.9);
+        }
+
+        .project-card:hover .project-thumbnail img {
+            transform: scale(1.08);
+            filter: brightness(1);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .project-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.4rem;
+            line-height: 1.4;
+        }
+
+        /* Project Detail Page */
+        .project-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            z-index: 3000;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+            pointer-events: none;
+            overflow-y: auto;
+            padding: 100px 5% 50px;
+        }
+
+        .project-detail.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .project-detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 3rem;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .project-detail-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            margin-bottom: 3rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-detail-image::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .project-detail-content h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .project-detail-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .project-detail-meta span {
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .project-detail-description {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        .project-detail-description p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Certificates Grid */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .certificate-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .certificate-card:active {
+            transform: translateY(-4px) scale(0.98);
+        }
+
+        .certificate-img {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.4s ease;
+            filter: brightness(0.95);
+        }
+
+        .certificate-card:hover .certificate-img img {
+            transform: scale(1.08);
+            filter: brightness(1.05);
+        }
+
+        .certificate-info {
+            padding: 1rem 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .certificate-info h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            line-height: 1.4;
+        }
+
+        /* CV Viewer Modal */
+        .cv-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0);
+            z-index: 4000;
+            transition: background 0.5s ease;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .cv-viewer.active {
+            display: flex;
+            background: rgba(0, 0, 0, 0.97);
+            animation: cvViewerFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes cvViewerFadeIn {
+            from {
+                background: rgba(0, 0, 0, 0);
+            }
+            to {
+                background: rgba(0, 0, 0, 0.97);
+            }
+        }
+
+        .cv-viewer.closing {
+            background: rgba(0, 0, 0, 0);
+            animation: cvViewerFadeOut 0.4s ease forwards;
+        }
+
+        @keyframes cvViewerFadeOut {
+            from {
+                background: rgba(0, 0, 0, 0.97);
+            }
+            to {
+                background: rgba(0, 0, 0, 0);
+            }
+        }
+
+        .cv-viewer-header {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cv-viewer.active .cv-viewer-header {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.2s;
+        }
+
+        .cv-viewer.closing .cv-viewer-header {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition-delay: 0s;
+        }
+
+        .cv-viewer-title {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .cv-viewer-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cv-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cv-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .cv-btn.close-cv {
+            background: rgba(255, 60, 60, 0.15);
+            border-color: rgba(255, 60, 60, 0.4);
+        }
+
+        .cv-btn.close-cv:hover {
+            background: rgba(255, 60, 60, 0.25);
+            border-color: rgba(255, 60, 60, 0.6);
+        }
+
+        .cv-viewer-container {
+            width: 100%;
+            max-width: 1400px;
+            height: 85vh;
+            background: #1a1a1a;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transform: scale(0.85) translateY(40px);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cv-viewer.active .cv-viewer-container {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition-delay: 0.3s;
+        }
+
+        .cv-viewer.closing .cv-viewer-container {
+            opacity: 0;
+            transform: scale(0.85) translateY(40px);
+            transition-delay: 0s;
+            transition-duration: 0.4s;
+        }
+
+        .cv-viewer-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #fff;
+        }
+
+        .cv-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            color: #666;
+            background: #0f0f0f;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .cv-placeholder svg {
+            width: 80px;
+            height: 80px;
+            color: #444;
+        }
+
+        .cv-placeholder h3 {
+            font-size: 1.5rem;
+            color: #888;
+        }
+
+        .cv-placeholder p {
+            max-width: 600px;
+            line-height: 1.6;
+            color: #999;
+        }
+
+        .cv-placeholder code {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #aaa;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .cv-placeholder .instructions {
+            background: rgba(255, 200, 0, 0.1);
+            border: 1px solid rgba(255, 200, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            max-width: 700px;
+        }
+
+        .cv-placeholder .instructions h4 {
+            color: #ffcc00;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .cv-placeholder .instructions ol {
+            text-align: left;
+            color: #ccc;
+            line-height: 1.8;
+            padding-left: 1.5rem;
+        }
+
+        .cv-placeholder .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 2000;
+            transition: background 0.4s ease;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+            background: rgba(0, 0, 0, 0.95);
+            animation: modalFadeIn 0.4s ease forwards;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                background: rgba(0, 0, 0, 0);
+            }
+            to {
+                background: rgba(0, 0, 0, 0.95);
+            }
+        }
+
+        .modal-content {
+            background: #111;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            transform: scale(0.7) translateY(50px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal.closing .modal-content {
+            transform: scale(0.7) translateY(50px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal.closing {
+            background: rgba(0, 0, 0, 0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #fff;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #999;
+            transform: rotate(90deg);
+        }
+
+        .cert-modal-img {
+            width: 100%;
+            height: auto;
+            background: #222;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            font-size: 4rem;
+            color: #444;
+            overflow: hidden;
+        }
+
+        .cert-modal-img img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-top: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* ======================================== */
+        /* RESUME PAGE - MODERN PROFESSIONAL DESIGN */
+        /* ======================================== */
+        
+        .resume-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .resume-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .resume-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            letter-spacing: -1.5px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .resume-header .subtitle {
+            font-size: 1.3rem;
+            color: #888;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .resume-contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #aaa;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover {
+            color: #fff;
+        }
+
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .contact-item svg {
+            width: 18px;
+            height: 18px;
+            color: #666;
+        }
+
+        /* Resume Sections */
+        .resume-section {
+            margin-bottom: 3.5rem;
+        }
+
+        .resume-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 0.8rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .resume-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #fff 0%, transparent 100%);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-category h3 {
+            font-size: 1.15rem;
+            margin-bottom: 1.2rem;
+            color: #ddd;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .skill-category h3 svg {
+            width: 20px;
+            height: 20px;
+            color: #888;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .skill-item {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #bbb;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .skill-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Experience Timeline */
+        .experience-timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .experience-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0.3rem;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 1), 0 0 0 6px rgba(255, 255, 255, 0.3);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .experience-title h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .experience-company {
+            font-size: 1rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .experience-period {
+            font-size: 0.9rem;
+            color: #666;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .experience-description {
+            color: #aaa;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .experience-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .highlight-tag {
+            padding: 0.4rem 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* Education Section */
+        .education-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .education-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .education-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+        }
+
+        .education-item h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .education-item .degree {
+            font-size: 1rem;
+            color: #888;
+            margin-bottom: 0.3rem;
+        }
+
+        .education-item .period {
+            font-size: 0.85rem;
+            color: #666;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+
+        .education-item .details {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Certifications Grid */
+        .certifications-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .cert-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 1.3rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .cert-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .cert-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cert-icon svg {
+            width: 22px;
+            height: 22px;
+            color: #888;
+        }
+
+        .cert-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ddd;
+            margin-bottom: 0.3rem;
+            line-height: 1.4;
+        }
+
+        .cert-content .issuer {
+            font-size: 0.85rem;
+            color: #777;
+        }
+
+        /* Hard Skills Grid with Logos */
+        .hard-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .hard-skill-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hard-skill-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-logo {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .hard-skill-item:hover .skill-logo {
+            background: rgba(255, 255, 255, 0.12);
+            transform: scale(1.1);
+        }
+
+        .skill-logo svg {
+            width: 28px;
+            height: 28px;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .hard-skill-item:hover .skill-logo svg {
+            color: #fff;
+        }
+
+        /* Specific logo colors */
+        .skill-logo.python svg {
+            color: #3776AB;
+        }
+
+        .skill-logo.js svg {
+            color: #F7DF1E;
+        }
+
+        .skill-logo.vscode svg {
+            color: #007ACC;
+        }
+
+        .skill-logo.capcut svg {
+            color: #FF6B6B;
+        }
+
+        .skill-logo.garageband svg {
+            color: #FC3C44;
+        }
+
+        .skill-logo.bandlab svg {
+            color: #E74C3C;
+        }
+
+        /* Empty logo boxes for custom images */
+        .skill-logo.empty-logo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .skill-logo.empty-logo::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .hard-skill-item:hover .skill-logo.empty-logo {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Add background-image to these IDs when you have the logos */
+        #matlab-logo,
+        #capcut-logo,
+        #garageband-logo {
+            background-size: 60%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hard-skill-item span {
+            font-size: 0.85rem;
+            color: #bbb;
+            font-weight: 500;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .hard-skill-item:hover span {
+            color: #fff;
+        }
+
+        h2.page-title {
+            font-size: 3.5rem;
+            margin-bottom: 3.5rem;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            nav a {
+                font-size: 0.9rem;
+            }
+
+            .home-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .home-text .role-primary,
+            .home-text .role-secondary {
+                font-size: 3rem;
+            }
+
+            .home-text .ampersand {
+                font-size: 1.8rem;
+            }
+
+            .home-image {
+                height: 450px;
+            }
+
+            .scroll-indicator {
+                position: static;
+                justify-content: center;
+                margin-top: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-image {
+                height: 400px;
+            }
+
+            .about-text h2 {
+                font-size: 2.5rem;
+            }
+
+            .projects-grid,
+            .certificates-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-detail-image {
+                height: 300px;
+                font-size: 4rem;
+            }
+
+            .project-detail-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-detail-meta {
+                flex-wrap: wrap;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+
+            .cv-viewer-container {
+                height: 75vh;
+            }
+
+            .cv-viewer-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .cv-viewer-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            /* Resume Mobile Responsive */
+            .resume-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .resume-header .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .resume-contact-info {
+                gap: 1rem;
+            }
+
+            .skills-grid,
+            .certifications-list {
+                grid-template-columns: 1fr;
+            }
+
+            .hard-skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .experience-timeline {
+                padding-left: 1.5rem;
+            }
+
+            .experience-item::before {
+                left: -1.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="about">About</a></li>
+            <li><a href="#" data-page="projects">Projects</a></li>
+            <li><a href="#" data-page="certificates">Certificates</a></li>
+            <li><a href="#" data-page="resume">Resume</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Page -->
+    <div class="page active" id="home">
+        <div class="home-content">
+            <div class="home-text">
+                <h1 class="role-primary">Zidhan Tengku</h1>
+                <p class="ampersand">&</p>
+                <h2 class="role-secondary">Wilandra</h2>
+            </div>
+            <div class="home-image">
+                <img src="foto_ateng(1).png" alt="Profile" />
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div class="page" id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>
+                    I'm Zidhan Tengku Wilandra—an engineer who creates, not just calculates. From MATLAB simulations to YouTube podcasts, from signal analysis to music production, I bridge telecommunications engineering with creative content creation.
+                </p>
+                <p>
+                    My projects span from NOMA technique simulations in MATLAB to multimedia content that makes complex ideas accessible. Technical skills meet creative execution.
+                </p>
+                <button class="download-cv-btn" id="viewCV">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                        />
+                    </svg>
+                    View CV
+                </button>
+            </div>
+            <div class="about-image">
+                <img src="foto_aboutme.png" alt="About Me" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Detail Page -->
+    <div class="project-detail" id="projectDetail">
+        <div class="project-detail-container">
+            <button class="back-button" id="backToProjects">← Back to Projects</button>
+
+            <div class="project-detail-image" id="detailImage">🌐</div>
+
+            <div class="project-detail-content">
+                <h1 id="detailTitle">Project Title</h1>
+
+                <div class="project-detail-meta">
+                    <span id="detailCategory">Category</span>
+                    <span>2024</span>
+                </div>
+
+                <div class="project-detail-description" id="detailDescription">
+                    <p>Project description will be displayed here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Page -->
+    <div class="page" id="projects">
+        <h2 class="page-title">My Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card" data-project="1">
+                <div class="project-thumbnail">
+                    <img src="noma simulation.jpg" alt="NOMA Technique Simulation" />
+                </div>
+                <div class="project-info">
+                    <h3>NOMA Technique Simulation</h3>
+                    <span class="project-tag">MATLAB • Signal Processing • Telecommunication Engineering</span>
+                </div>
+            </div>
+            <div class="project-card" data-project="2">
+                <div class="project-thumbnail">
+                    <img src="porto.jpg" alt="Personal Portfolio" />
+                </div>
+                <div class="project-info">
+                    <h3>Personal Portfolio</h3>
+                    <span class="project-tag">HTML • CSS • VScode</span>
+                </div>
+            </div>
+            <div class="project-card" data-project="3">
+                <div class="project-thumbnail">
+                    <img src="thumbnail podcast.jpg" alt="Podcast Video Youtube" />
+                </div>
+                <div class="project-info">
+                    <h3>Podcast Video Youtube</h3>
+                    <span class="project-tag">CapCut • Garage Band • Educational Content Production</span>
+                </div>
+            </div>
+            <div class="project-card" data-project="4">
+                <div class="project-thumbnail">
+                    <img src="thumbnailmusik.jpg" alt="Music Production" />
+                </div>
+                <div class="project-info">
+                    <h3>Music Production</h3>
+                    <span class="project-tag">BandLab • Garage Band • Audio Engineering</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificates Page -->
+    <div class="page" id="certificates">
+        <h2 class="page-title">Certificates</h2>
+        <div class="certificates-grid">
+            <div class="certificate-card" data-cert="1">
+                <div class="certificate-img">
+                    <img src="sertif_revou.png" alt="RevoU.co - Intro to Digital Marketing" />
+                </div>
+                <div class="certificate-info">
+                    <h3>RevoU.co - Intro to Digital Marketing</h3>
+                </div>
+            </div>
+            <div class="certificate-card" data-cert="2">
+                <div class="certificate-img">
+                    <img src="sertif_oracle_2.png" alt="Oracle Cloud Infrastructure AI Professional" />
+                </div>
+                <div class="certificate-info">
+                    <h3>Oracle Cloud Infrastructure AI Professional</h3>
+                </div>
+            </div>
+            <div class="certificate-card" data-cert="3">
+                <div class="certificate-img">
+                    <img src="oracle_setif_1.png" alt="Oracle Fusion AI Agent Studio Associate" />
+                </div>
+                <div class="certificate-info">
+                    <h3>Oracle Fusion AI Agent Studio Associate</h3>
+                </div>
+            </div>
+            <div class="certificate-card" data-cert="4">
+                <div class="certificate-img">
+                    <img src="sertif_toefl.png" alt="TOEFL Certification" />
+                </div>
+                <div class="certificate-info">
+                    <h3>TOEFL Certification</h3>
+                </div>
+            </div>
+            <div class="certificate-card" data-cert="5">
+                <div class="certificate-img">
+                    <img src="sertif_UIpath_1.png" alt="Robot and Orchestrator for Testing" />
+                </div>
+                <div class="certificate-info">
+                    <h3>Robot and Orchestrator for Testing</h3>
+                </div>
+            </div>
+            <div class="certificate-card" data-cert="6">
+                <div class="certificate-img">
+                    <img src="sertif_UIpath_2.png" alt="UIPath Automation Cloud Robot" />
+                </div>
+                <div class="certificate-info">
+                    <h3>UIPath Automation Cloud Robot</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- RESUME PAGE - REPLACING CONTACT PAGE -->
+    <!-- ============================================ -->
+    <div class="page" id="resume">
+        <div class="resume-content">
+            <!-- Resume Header -->
+            <div class="resume-header">
+                <h1>Zidhan Tengku Wilandra</h1>
+                <p class="subtitle">Telecommunications Engineer • Content Creator • Technical Innovator</p>
+                
+                <div class="resume-contact-info">
+                    <div class="contact-item">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <a href="mailto:zidhantengku@gmail.com" style="color: inherit; text-decoration: none; transition: color 0.3s ease;">zidhantengku@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <a href="tel:+6281364376243" style="color: inherit; text-decoration: none; transition: color 0.3s ease;">+62 813-6437-6243</a>
+                    </div>
+                    <div class="contact-item">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Komplek Permata Buah Batu No. A3, Bandung</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                        <a href="https://www.linkedin.com/in/zidhan-tengku/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none; transition: color 0.3s ease;">linkedin.com/in/zidhan-tengku</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Summary -->
+            <div class="resume-section">
+                <h2>Professional Summary</h2>
+                <p style="color: #aaa; line-height: 1.8; font-size: 1rem;">
+                    I transform complex telecommunications challenges into elegant solutions by merging technical expertise with creative thinking. With experience in signal simulation, MATLAB programming, and technical writing—complemented by skills in creative design and content creation—I bring a versatile, innovative approach to every project, backed by adaptability and continuous learning.
+                </p>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="resume-section">
+                <h2>Technical Skills</h2>
+                <div class="skills-grid">
+                    <!-- Hard Skills with App Logos -->
+                    <div class="skill-category">
+                        <h3>
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                            </svg>
+                            Hard Skills
+                        </h3>
+                        <div class="hard-skills-grid">
+                            <div class="hard-skill-item">
+                                <div class="skill-logo empty-logo" id="matlab-logo">
+                                    <img src="logo matlab.png" alt="MATLAB" style="width: 70%; height: 70%; object-fit: contain;">
+                                </div>
+                                <span>MATLAB</span>
+                            </div>
+                            <div class="hard-skill-item">
+                                <div class="skill-logo python">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/>
+                                    </svg>
+                                </div>
+                                <span>Python</span>
+                            </div>
+                            <div class="hard-skill-item">
+                                <div class="skill-logo">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/>
+                                    </svg>
+                                </div>
+                                <span>HTML/CSS</span>
+                            </div>
+                            <div class="hard-skill-item">
+                                <div class="skill-logo js">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/>
+                                    </svg>
+                                </div>
+                                <span>JavaScript</span>
+                            </div>
+                            <div class="hard-skill-item">
+                                <div class="skill-logo empty-logo" id="capcut-logo">
+                                    <img src="capcut logo new.jpg" alt="CapCut" style="width: 70%; height: 70%; object-fit: contain;">
+                                </div>
+                                <span>CapCut</span>
+                            </div>
+                            <div class="hard-skill-item">
+                                <div class="skill-logo empty-logo" id="garageband-logo">
+                                    <img src="GB logo.webp" alt="Garage Band" style="width: 70%; height: 70%; object-fit: contain;">
+                                </div>
+                                <span>Garage Band</span>
+                            </div>
+                            <div class="hard-skill-item">
+                                <div class="skill-logo bandlab">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 3v9.28c-.47-.17-.97-.28-1.5-.28C8.01 12 6 14.01 6 16.5S8.01 21 10.5 21c2.31 0 4.2-1.75 4.45-4H15V6h4V3h-7z"/>
+                                    </svg>
+                                </div>
+                                <span>BandLab</span>
+                            </div>
+                            <div class="hard-skill-item">
+                                <div class="skill-logo vscode">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
+                                    </svg>
+                                </div>
+                                <span>VSCode</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soft Skills -->
+                    <div class="skill-category">
+                        <h3>
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                            </svg>
+                            Soft Skills
+                        </h3>
+                        <div class="skill-list">
+                            <span class="skill-item">Communication</span>
+                            <span class="skill-item">Problem Solving</span>
+                            <span class="skill-item">Team Collaboration</span>
+                            <span class="skill-item">Time Management</span>
+                            <span class="skill-item">Creative Thinking</span>
+                            <span class="skill-item">Adaptability</span>
+                            <span class="skill-item">Critical Analysis</span>
+                            <span class="skill-item">Project Management</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="resume-section">
+                <h2>Professional Experience</h2>
+                <div class="experience-timeline">
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-title">
+                                <h3>Internship - Network Engineering</h3>
+                                <p class="experience-company">PT. Telekomunikasi Seluler (Telkomsel)</p>
+                            </div>
+                            <span class="experience-period">Jul 2024 - Aug 2024</span>
+                        </div>
+                        <p class="experience-description">
+                            Actively participated in meetings to resolve network coverage issues and determine antenna installation sufficiency. Assisted in recording antenna data for uncovered areas using QGIS. Conducted field surveys to assess antenna tower conditions across multiple locations. Collaborated with Huawei vendor team on technical specifications and equipment installation. Managed Jabodetabek BTS data to identify antennas requiring performance improvements.
+                        </p>
+                        <div class="experience-highlights">
+                            <span class="highlight-tag">Network Planning</span>
+                            <span class="highlight-tag">QGIS</span>
+                            <span class="highlight-tag">Field Survey</span>
+                            <span class="highlight-tag">BTS Management</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-title">
+                                <h3>Content Creator & Podcast Producer</h3>
+                                <p class="experience-company">YouTube Channel</p>
+                            </div>
+                            <span class="experience-period">2024 - Present</span>
+                        </div>
+                        <p class="experience-description">
+                            Produce educational podcast content on telecommunications and technology topics. Manage end-to-end production from scripting to final editing using CapCut and Garage Band.
+                        </p>
+                        <div class="experience-highlights">
+                            <span class="highlight-tag">Video Production</span>
+                            <span class="highlight-tag">Audio Engineering</span>
+                            <span class="highlight-tag">Educational Content</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-title">
+                                <h3>Internship - IT Infrastructure</h3>
+                                <p class="experience-company">PT. Trans Indonesia Supercorridor</p>
+                            </div>
+                            <span class="experience-period">Jun 2023 - Sep 2023</span>
+                        </div>
+                        <p class="experience-description">
+                            Coordinated with supervisors to prevent operational errors. Created comprehensive data reports in Microsoft Excel for IP Address experiment results. Performed urgent maintenance tasks including server maintenance in Cibubur to ensure optimal performance. Collaborated with team to establish external partnerships and prepared meeting reports. Assisted corporate partners with new equipment installation in server rooms.
+                        </p>
+                        <div class="experience-highlights">
+                            <span class="highlight-tag">Server Maintenance</span>
+                            <span class="highlight-tag">Network Administration</span>
+                            <span class="highlight-tag">Data Management</span>
+                            <span class="highlight-tag">Technical Support</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-title">
+                                <h3>Telecommunication Final Project</h3>
+                                <p class="experience-company">University Research Lab</p>
+                            </div>
+                            <span class="experience-period">2025 - 2026</span>
+                        </div>
+                        <p class="experience-description">
+                            Developed NOMA technique simulations using MATLAB for wireless communication systems. Analyzed power allocation, interference management, and spectrum efficiency improvements.
+                        </p>
+                        <div class="experience-highlights">
+                            <span class="highlight-tag">MATLAB Simulation</span>
+                            <span class="highlight-tag">Signal Processing</span>
+                            <span class="highlight-tag">Research & Analysis</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div class="experience-title">
+                                <h3>Music Producer</h3>
+                                <p class="experience-company">Independent / BandLab</p>
+                            </div>
+                            <span class="experience-period">2021 - Present</span>
+                        </div>
+                        <p class="experience-description">
+                            Create original music and audio productions using BandLab and Garage Band. Specialize in sound engineering, mixing, and mastering for multimedia projects and video content.
+                        </p>
+                        <div class="experience-highlights">
+                            <span class="highlight-tag">Music Production</span>
+                            <span class="highlight-tag">Sound Engineering</span>
+                            <span class="highlight-tag">Audio Mixing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Section -->
+            <div class="resume-section">
+                <h2>Education</h2>
+                <div class="education-grid">
+                    <div class="education-item">
+                        <div class="education-header">
+                            <div>
+                                <h3>Telkom University</h3>
+                                <p class="degree">Bachelor of Engineering - Telecommunications Engineering</p>
+                            </div>
+                            <span class="period">Sep 2021 - Present</span>
+                        </div>
+                        <p class="details">
+                            Studied topics related to signals, transmission, and networks including electronics, data communication networks, and programming. Actively participated in departmental activities and learning sessions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Certifications -->
+            <div class="resume-section">
+                <h2>Key Certifications</h2>
+                <div class="certifications-list">
+                    <div class="cert-item">
+                        <div class="cert-icon">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <div class="cert-content">
+                            <h4>Oracle Cloud Infrastructure 2025 Certified Generative AI Professional</h4>
+                            <p class="issuer">Oracle Corporation - Sep 2025</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-item">
+                        <div class="cert-icon">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"/>
+                            </svg>
+                        </div>
+                        <div class="cert-content">
+                            <h4>Oracle Fusion AI Agent Studio Certified Foundations Associate</h4>
+                            <p class="issuer">Oracle Corporation - Sep 2025</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-item">
+                        <div class="cert-icon">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/>
+                            </svg>
+                        </div>
+                        <div class="cert-content">
+                            <h4>Hybrid LiFi and WiFi Networks and Intelligent Telecom</h4>
+                            <p class="issuer">OJC Telecommunication Tech - May 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="certifications-list" style="margin-top: 1.2rem;">
+                    <div class="cert-item">
+                        <div class="cert-icon">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                        </div>
+                        <div class="cert-content">
+                            <h4>Intro to Digital Marketing</h4>
+                            <p class="issuer">RevoU.co - Apr 2024</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-item">
+                        <div class="cert-icon">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                        </div>
+                        <div class="cert-content">
+                            <h4>Robot and Orchestrator for Testing</h4>
+                            <p class="issuer">UIPath</p>
+                        </div>
+                    </div>
+
+                    <div class="cert-item">
+                        <div class="cert-icon">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/>
+                            </svg>
+                        </div>
+                        <div class="cert-content">
+                            <h4>UIPath Automation Cloud Robot</h4>
+                            <p class="issuer">UIPath</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CV Viewer Modal -->
+    <div class="cv-viewer" id="cvViewer">
+        <div class="cv-viewer-header">
+            <div class="cv-viewer-title">Curriculum Vitae - Zidhan Tengku Wilandra</div>
+            <div class="cv-viewer-actions">
+                <button class="cv-btn" id="downloadCVBtn" style="display: none;">
+                    <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                    </svg>
+                    Download PDF
+                </button>
+                <button class="cv-btn close-cv" id="closeCVViewer">
+                    <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                    </svg>
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="cv-viewer-container">
+            <div class="cv-placeholder" id="cvPlaceholder">
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                    />
+                </svg>
+                <h3>📄 CV Not Found</h3>
+                <p>The CV file could not be loaded. Please make sure the PDF file is in the correct location.</p>
+                
+                <div class="instructions">
+                    <h4>📋 Instructions to Fix:</h4>
+                    <ol>
+                        <li>Create a folder named <code>cv</code> in the same directory as this HTML file</li>
+                        <li>Place your CV PDF file in that folder</li>
+                        <li>Name the file: <code>CV_Zidhan_Tengku_Wilandra_ATS_Engineering.pdf</code></li>
+                        <li>Or update the file path in the code to match your CV filename</li>
+                    </ol>
+                </div>
+
+                <p style="margin-top: 1.5rem; font-size: 0.9rem;">
+                    Expected path: <code>cv/CV_Zidhan_Tengku_Wilandra_ATS_Engineering.pdf</code>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div class="modal" id="certModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="cert-modal-img" id="certModalImg">📜</div>
+            <h2 id="certModalTitle">Certificate Title</h2>
+        </div>
+    </div>
+
+    <script>
+        // Project Data
+        const projects = {
+            1: {
+                title: 'NOMA Technique Simulation',
+                icon: 'noma simulation.jpg',
+                category: 'MATLAB • Signal Processing',
+                description:
+                    'Simulation of Non-Orthogonal Multiple Access (NOMA) techniques using MATLAB for wireless communication optimization. This project explores system capacity enhancement and spectrum efficiency in modern telecommunications.\n\nInvolves in-depth analysis of power allocation, interference management, and system performance under various channel conditions. Simulation results show significant improvements in throughput and fairness compared to conventional techniques.',
+            },
+            2: {
+                title: 'Personal Portfolio',
+                icon: 'porto.jpg',
+                category: 'HTML • CSS • VScode',
+                description:
+                    'A personal portfolio website designed with a modern and responsive approach. Showcasing a collection of projects, certificates, and work experience with a focus on interactive and user-friendly design.\n\nBuilt using HTML, CSS, and JavaScript to deliver an optimal digital experience across all devices.',
+            },
+            3: {
+                title: 'Podcast Video Youtube',
+                icon: 'thumbnail podcast.jpg',
+                category: 'CapCut • Garage Band • Educational Content Production',
+                description:
+                    'Producing educational and informative podcast videos tailored for YouTube audiences. Utilized CapCut for video editing and Garage Band for audio mastering.\n\nFocused on delivering clear messages about telecommunications topics, combining technical knowledge with creative storytelling to engage viewers effectively.',
+            },
+            4: {
+                title: 'Music Production',
+                icon: 'thumbnailmusik.jpg',
+                category: 'BandLab • Garage Band • Audio Engineering',
+                description:
+                    'Original music and audio production focused on sound engineering and mixing excellence. Tools include BandLab and Garage Band.\n\nAimed at crafting high-quality audio tracks with technical precision to complement multimedia projects and presentations within telecommunications field.',
+            },
+        };
+
+        // Certificate Data
+        const certificates = {
+            1: {
+                title: 'RevoU.co - Intro to Digital Marketing',
+                image: 'sertif_revou.png',
+            },
+            2: {
+                title: 'Oracle Cloud Infrastructure AI Professional',
+                image: 'sertif_oracle_2.png',
+            },
+            3: {
+                title: 'Oracle Fusion AI Agent Studio Associate',
+                image: 'oracle_setif_1.png',
+            },
+            4: {
+                title: 'TOEFL Certification',
+                image: 'sertif_toefl.png',
+            },
+            5: {
+                title: 'Robot and Orchestrator for Testing',
+                image: 'sertif_UIpath_1.png',
+            },
+            6: {
+                title: 'UIPath Automation Cloud Robot',
+                image: 'sertif_UIpath_2.png',
+            },
+        };
+
+        // Page Navigation with smooth slide animation
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('nav a');
+        let currentPageIndex = 0;
+        const pageOrder = ['home', 'about', 'projects', 'certificates', 'resume'];
+
+        function showPage(pageId) {
+            const newPageIndex = pageOrder.indexOf(pageId);
+            const isMovingForward = newPageIndex > currentPageIndex;
+
+            pages.forEach((page) => {
+                page.classList.remove('active', 'exit-left', 'exit-right');
+            });
+
+            const currentPage = document.getElementById(pageOrder[currentPageIndex]);
+            if (isMovingForward) {
+                currentPage.classList.add('exit-left');
+            } else {
+                currentPage.classList.add('exit-right');
+            }
+
+            setTimeout(() => {
+                document.getElementById(pageId).classList.add('active');
+                currentPageIndex = newPageIndex;
+            }, 100);
+        }
+
+        navLinks.forEach((link) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+
+        document.querySelectorAll('.btn[data-page]').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = btn.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+
+        // Project Detail Page
+        const projectDetail = document.getElementById('projectDetail');
+        const projectCards = document.querySelectorAll('.project-card');
+        const backToProjects = document.getElementById('backToProjects');
+
+        projectCards.forEach((card) => {
+            card.addEventListener('click', () => {
+                const projectId = card.getAttribute('data-project');
+                const project = projects[projectId];
+
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 200);
+
+                const detailImg = document.getElementById('detailImage');
+                detailImg.innerHTML = `<img src="${project.icon}" alt="${project.title}" style="width: 100%; height: 100%; object-fit: cover;" />`;
+                document.getElementById('detailTitle').textContent = project.title;
+                document.getElementById('detailCategory').textContent = project.category;
+
+                const paragraphs = project.description.split('\n\n').map((p) => `<p>${p}</p>`).join('');
+                document.getElementById('detailDescription').innerHTML = paragraphs;
+
+                setTimeout(() => {
+                    projectDetail.classList.add('active');
+                }, 200);
+            });
+        });
+
+        backToProjects.addEventListener('click', () => {
+            projectDetail.classList.remove('active');
+        });
+
+        // Certificate Modal
+        const certModal = document.getElementById('certModal');
+        const certCards = document.querySelectorAll('.certificate-card');
+
+        certCards.forEach((card) => {
+            card.addEventListener('click', () => {
+                const certId = card.getAttribute('data-cert');
+                const cert = certificates[certId];
+
+                const certModalImg = document.getElementById('certModalImg');
+                certModalImg.innerHTML = `<img src="${cert.image}" alt="${cert.title}" style="width: 100%; height: auto; border-radius: 10px;" />`;
+                document.getElementById('certModalTitle').textContent = cert.title;
+
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 200);
+
+                certModal.classList.remove('closing');
+                certModal.classList.add('active');
+            });
+        });
+
+        function closeModal(modal) {
+            modal.classList.add('closing');
+            setTimeout(() => {
+                modal.classList.remove('active', 'closing');
+            }, 300);
+        }
+
+        document.querySelectorAll('.close-modal').forEach((closeBtn) => {
+            closeBtn.addEventListener('click', () => {
+                if (certModal.classList.contains('active')) {
+                    closeModal(certModal);
+                }
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === certModal) {
+                closeModal(certModal);
+            }
+        });
+
+        // CV Viewer
+        const cvViewer = document.getElementById('cvViewer');
+        const viewCVBtn = document.getElementById('viewCV');
+        const closeCVViewer = document.getElementById('closeCVViewer');
+        const downloadCVBtn = document.getElementById('downloadCVBtn');
+        const cvPlaceholder = document.getElementById('cvPlaceholder');
+        const cvContainer = document.querySelector('.cv-viewer-container');
+
+        const cvPdfPaths = [
+            'cv/CV_Zidhan_Tengku_Wilandra_ATS_Engineering.pdf',
+            'CV_Zidhan_Tengku_Wilandra_ATS_Engineering.pdf',
+            'cv/cv.pdf',
+            'cv.pdf'
+        ];
+
+        let loadedCvPath = null;
+
+        async function tryLoadCV() {
+            for (const path of cvPdfPaths) {
+                try {
+                    const response = await fetch(path, { method: 'HEAD' });
+                    if (response.ok) {
+                        loadedCvPath = path;
+                        return path;
+                    }
+                } catch (error) {
+                    console.log(`CV not found at: ${path}`);
+                }
+            }
+            return null;
+        }
+
+        viewCVBtn.addEventListener('click', async function (e) {
+            e.preventDefault();
+
+            const existingIframe = cvContainer.querySelector('iframe');
+            if (existingIframe) {
+                existingIframe.remove();
+            }
+
+            cvPlaceholder.style.display = 'flex';
+            downloadCVBtn.style.display = 'none';
+
+            cvViewer.classList.remove('closing');
+            cvViewer.classList.add('active');
+            
+            document.body.style.overflow = 'hidden';
+
+            const cvPath = await tryLoadCV();
+
+            if (cvPath) {
+                const iframe = document.createElement('iframe');
+                iframe.src = cvPath;
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+
+                iframe.onerror = function () {
+                    cvPlaceholder.style.display = 'flex';
+                    console.error('Failed to load CV PDF');
+                };
+
+                iframe.onload = function () {
+                    cvPlaceholder.style.display = 'none';
+                    downloadCVBtn.style.display = 'flex';
+                };
+
+                cvContainer.appendChild(iframe);
+            } else {
+                cvPlaceholder.style.display = 'flex';
+                console.error('CV PDF not found in any of the expected paths');
+            }
+        });
+
+        function closeCVViewerFunc() {
+            cvViewer.classList.add('closing');
+            
+            setTimeout(() => {
+                cvViewer.classList.remove('active', 'closing');
+                document.body.style.overflow = '';
+            }, 400);
+        }
+
+        closeCVViewer.addEventListener('click', closeCVViewerFunc);
+
+        cvViewer.addEventListener('click', function (e) {
+            if (e.target === cvViewer) {
+                closeCVViewerFunc();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && cvViewer.classList.contains('active')) {
+                closeCVViewerFunc();
+            }
+        });
+
+        downloadCVBtn.addEventListener('click', function () {
+            if (loadedCvPath) {
+                const link = document.createElement('a');
+                link.href = loadedCvPath;
+                link.download = 'CV_Zidhan_Tengku_Wilandra.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    </script>
+</body>
+</html>
